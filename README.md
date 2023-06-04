@@ -31,7 +31,7 @@ A simple ToDoList application built with Flask.
 - `app/models.py`: Defines the database models for the ToDoList.
 - `templates/index.html`: HTML template for the home page.
  
-- In this project in use[ w3.css](https://www.w3schools.com/w3css/) framework to styling app.
+- In this project use[ w3.css](https://www.w3schools.com/w3css/) framework to styling app.
 
 ## Technologies Used
 
