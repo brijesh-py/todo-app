@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <style>
+      form {
+        display: flex;
+      }
+      .hide {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="w3-light-grey">
+    <div class="w3-container">
+      <h2 class="w3-teal w3-center">Todo List</h2>
+      <div class="" style="max-width: 500px; margin: auto">
+        <div class="w3-center">
+          <span class="w3-text-green">{{request.args['success']}}</span>
+          <span class="w3-text-red">{{request.args['error']}}</span>
+        </div>
+        <div
+          class="add-todolist-container w3-margin-top w3-white w3-padding w3-hover-shadow w3-border-light w3-border">
+          <div class="w3-bar">
+            <a href="#" class="w3-bar-item w3-button w3-black add-todo-btn"
+              >Add</a
+            >
+          </div>
+          <form action="/" method="post" id="add-todo">
+            <input
+              type="text"
+              class="input w3-input w3-border w3-round"
+              placeholder="Add todo"
+              name="content"
+              required />
+            <button class="btn w3-button w3-red">Add</button>
+          </form>
+          <form action="/update/" method="post" id="update-todo" class="hide">
+            <input
+              type="text"
+              class="input w3-input w3-border w3-round content-update"
+              placeholder="click on update"
+              name="content"
+              required />
+            <input type="hidden" id="todo-id" name="todo-id" />
+            <button class="btn w3-button w3-red">Update</button>
+          </form>
+        </div>
+        <div class="w3-margin-top" style="max-height: 500px; overflow: scroll">
+          <ul class="w3-ul">
+            {% for x in todolist %}
+            <li class="w3-white w3-hover-shadow">
+              <span class="content">{{x.content}}</span>
+              <a href="/delete/?query={{x.id}}" class="w3-text-red">Delete</a>
+              <span class="w3-text-teal update-btn" data-id="{{x.id}}"
+                >Update</span
+              >
+            </li>
+            {% else %}
+            <li class="w3-center w3-white">Empty Todo list</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- js -->
+    <script>
+      let add_todo_btn = document.querySelector(".add-todo-btn");
+      let add_todo_form = document.querySelector("#add-todo");
+      let update_todo_form = document.querySelector("#update-todo");
+
+      let selectUpdateButtons = document.querySelectorAll(".update-btn");
+      selectUpdateButtons.forEach((element) => {
+        element.addEventListener("click", () => {
+          let get_content =
+            element.parentElement.querySelector(".content").innerText;
+          let contentUpdateInput = document.querySelector(".content-update");
+          let todoIdInput = document.querySelector("#todo-id");
+
+          contentUpdateInput.value = get_content;
+          todoIdInput.value = element.dataset.id;
+
+          add_todo_form.classList.add("hide");
+          update_todo_form.classList.remove("hide");
+        });
+      });
+
+      add_todo_btn.addEventListener("click", () => {
+        add_todo_form.classList.remove("hide");
+        update_todo_form.classList.add("hide");
+      });
+    </script>
+  </body>
+</html>
